@@ -11,3 +11,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.container {
+  height: 314px;
+  width: 314px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #ff000055;
+  justify-content: space-around;
+}
+button {
+  height: 100px;
+  width: 100px;
+  margin: 2px;
+  font-size: 36px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.8;
+  cursor: default;
+}
+
+.player1 {
+  height: 90px;
+  width: 90px;
+  margin: 7px;
+  background: rgb(255, 0, 0, 0.3);
+}
+
+.player2 {
+  height: 90px;
+  width: 90px;
+  margin: 7px;
+  background: rgb(255, 255, 0, 0.3);
+}
