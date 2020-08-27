@@ -1,67 +1,52 @@
 import React from 'react';
 import Status from './Status';
 import Tiles from './Tiles';
-import winingCombinations from './winningCombinations';
+import WIN_CONDITIONS from './winningCombinations';
 
 class TicTacToe extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      player1: [],
-      player2: [],
-      status: 'Current Turn: Player 1',
-      isWon: false,
+      currentPlayer: { name: 'Player 1', symbol: 'X' },
+      nextPlayer: { name: 'Player 2', symbol: 'O' },
+      tiles: new Array(9).fill(''),
+      isDraw: false,
+      winner: null,
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
-  get turnPlayed() {
-    return this.state.player1.concat(this.state.player2).length;
-  }
-
-  get currentTurn() {
-    return this.turnPlayed % 2 ? 'player2' : 'player1';
-  }
-
-  isWon(currentTurn) {
-    return winingCombinations.some((row) => {
-      return row.every((num) => this.state[currentTurn].includes(num));
-    });
-  }
-
-  gameResult(currentTurn) {
-    if (this.isWon(currentTurn)) {
-      const status = currentTurn === 'player1' ? 'Player 1' : 'Player 2';
-      this.setState({ status: status + ' has Won!!!', isWon: true });
-    }
-
-    this.turnPlayed === 9 && this.setState({ status: 'Game Draw!!!' });
+  findWinner(tiles) {
+    const { currentPlayer } = this.state;
+    const doesInclude = (index) => tiles[index] === currentPlayer.symbol;
+    const isWin = WIN_CONDITIONS.some((row) => row.every(doesInclude));
+    return isWin ? currentPlayer : null;
   }
 
   handleClick(num) {
-    const currentTurn = this.currentTurn;
-    this.state[currentTurn].push(num);
+    const newTiles = this.state.tiles;
+    newTiles[num] = this.state.currentPlayer.symbol;
 
-    const nextPlayer = currentTurn === 'player1' ? 'Player 2' : 'Player 1';
-
-    this.setState({
-      player1: this.state.player1,
-      player2: this.state.player2,
-      status: `Current Turn: ${nextPlayer}`,
-    });
-
-    this.gameResult(currentTurn);
+    this.setState(({ currentPlayer, nextPlayer }) => ({
+      tiles: newTiles,
+      currentPlayer: nextPlayer,
+      nextPlayer: currentPlayer,
+      isDraw: newTiles.every((t) => t),
+      winner: this.findWinner(newTiles),
+    }));
   }
 
   render() {
+    const { isDraw, winner, currentPlayer } = this.state;
+    const status = { isDraw, winner };
     return (
       <div className="container">
-        <Status status={this.state.status} />
+        <Status status={status} currentPlayer={currentPlayer} />
         <Tiles
-          player1={this.state.player1}
-          player2={this.state.player2}
+          tiles={this.state.tiles}
+          status={status}
+          currentPlayer={currentPlayer}
           onClick={this.handleClick}
-          isWon={this.state.isWon}
         />
       </div>
     );

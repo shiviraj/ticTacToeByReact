@@ -1,3 +1,8 @@
 import React from 'react';
 
-export default (props) => <h1>{props.status}</h1>;
+export default ({ status, currentPlayer }) => {
+  let gameStatus = `${currentPlayer.name}'s Turn`;
+  status.isDraw && (gameStatus = `Game Draw!!!`);
+  status.winner && (gameStatus = `${status.winner.name} won!!!`);
+  return <h1>{gameStatus}</h1>;
+};

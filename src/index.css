@@ -28,29 +28,16 @@ h1 {
   border: 1px solid #ff000055;
   justify-content: space-around;
 }
+
 button {
   height: 100px;
   width: 100px;
   margin: 2px;
   font-size: 36px;
   cursor: pointer;
+  color: black;
 }
 
 button:disabled {
-  opacity: 0.8;
   cursor: default;
-}
-
-.player1 {
-  height: 90px;
-  width: 90px;
-  margin: 7px;
-  background: rgb(255, 0, 0, 0.3);
-}
-
-.player2 {
-  height: 90px;
-  width: 90px;
-  margin: 7px;
-  background: rgb(255, 255, 0, 0.3);
 }
